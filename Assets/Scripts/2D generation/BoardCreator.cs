@@ -62,6 +62,9 @@ public class BoardCreator : MonoBehaviour
 
     void CreateRoomsAndCorridors()
     {
+
+		Debug.Log ("CreateRoomsAndCorridors");
+
         // Create the rooms array with a random size.
         rooms = new Room[numRooms.Random];
 
@@ -95,13 +98,11 @@ public class BoardCreator : MonoBehaviour
                 // Setup the corridor based on the room that was just created.
                 corridors[i].SetupCorridor(rooms[i], corridorLength, roomWidth, roomHeight, columns, rows, false);
             }
-            if (i == rooms.Length * .5f)
-            {
-                Vector3 playerPos = new Vector3(rooms[0].xPos, rooms[0].yPos, 0);
-                Instantiate(player, playerPos, Quaternion.identity);
-            }
-        }
+			// place player in first room
 
+        }
+		Vector3 playerPos = new Vector3(rooms[0].xPos, rooms[0].yPos, 0);
+		Instantiate(player, playerPos, Quaternion.identity);
     }
 
 
@@ -124,18 +125,31 @@ public class BoardCreator : MonoBehaviour
 
                     // The coordinates in the jagged array are based on the room's position and it's width and height.
                     tiles[xCoord][yCoord] = TileType.Floor;
-                    int random = Random.Range(0, 20);
+
+
+                    //int random = Random.Range(0, 100);
+
+					//10% 100 - 10 = 90 = 10%
+
+					GameObject lh = GameObject.Find ("LevelHelper");
+					int rate = lh.GetComponent<LevelHelper> ().enemySpawnRate / 1000;
+
+					float random = Random.value;
+
+					Debug.Log("SpawnRate LH: " + rate);
+					Debug.Log ("Is It Really Random? " + random);
+
                     // place enemies if not in first room
-                    if (random >= 18 && rooms[i] != rooms[0])
+					if (random <= rate && rooms[i] != rooms[0])
                     {
                         tiles[xCoord][yCoord] = TileType.Enemies;
                     }
                     // spawn food 
-                    if (random <= 4)
+                    if (random <= 0.4)
                     {
                         tiles[xCoord][yCoord] = TileType.Food;
                     }
-                    // place player in first room
+
                 }
             }
         }

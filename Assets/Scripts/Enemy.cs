@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 namespace Completed
@@ -28,6 +29,7 @@ namespace Completed
 			
 			//Find the Player GameObject using it's tag and store a reference to its transform component.
 			target = GameObject.FindGameObjectWithTag ("Player").transform;
+
 			
 			//Call the start function of our base class MovingObject.
 			base.Start ();

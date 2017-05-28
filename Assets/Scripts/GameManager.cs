@@ -24,11 +24,15 @@ namespace Completed
 		private bool enemiesMoving;								//Boolean to check if enemies are moving.
 		private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
 		
-		
+		private static GameObject lh;
 		
 		//Awake is always called before any Start functions
 		void Awake()
 		{
+
+			lh = GameObject.Find ("LevelHelper");
+			level = lh.GetComponent<LevelHelper> ().currentLevel;
+
             //Check if instance already exists
             if (instance == null)
 
@@ -42,7 +46,7 @@ namespace Completed
                 Destroy(gameObject);	
 			
 			//Sets this to not be destroyed when reloading scene
-			DontDestroyOnLoad(gameObject);
+			//DontDestroyOnLoad(gameObject);
 			
 			//Assign enemies to a new List of Enemy objects.
 			enemies = new List<Enemy>();
@@ -52,7 +56,10 @@ namespace Completed
 			
 			//Call the InitGame function to initialize the first level 
 			InitGame();
+
 		}
+
+	
 
         //this is called only once, and the paramter tell it to be called only after the scene was loaded
         //(otherwise, our Scene Load callback would be called the very first load, and we don't want that)
@@ -66,7 +73,10 @@ namespace Completed
         //This is called each time a scene is loaded.
         static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            instance.level++;
+			lh = GameObject.Find ("LevelHelper");
+			lh.GetComponent<LevelHelper> ().currentLevel++;
+
+			instance.level = lh.GetComponent<LevelHelper> ().currentLevel;
             instance.InitGame();
         }
 
@@ -122,6 +132,7 @@ namespace Completed
 			
 			//Start moving enemies.
 			StartCoroutine (MoveEnemies ());
+
 		}
 		
 		//Call this to add the passed in Enemy to the List of Enemy objects.
@@ -176,6 +187,7 @@ namespace Completed
 			//Enemies are done moving, set enemiesMoving to false.
 			enemiesMoving = false;
 		}
+
 	}
 }
 

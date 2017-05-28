@@ -31,6 +31,10 @@ namespace Completed
 		//Start overrides the Start function of MovingObject
 		protected override void Start ()
 		{
+
+
+			//DontDestroyOnLoad (this);
+
 			//Get a component reference to the Player's animator component
 			animator = GetComponent<Animator>();
 			
@@ -42,6 +46,7 @@ namespace Completed
 			
 			//Call the Start function of the MovingObject base class.
 			base.Start ();
+
 		}
 		
 		
@@ -55,6 +60,12 @@ namespace Completed
 		
 		private void Update ()
 		{
+			//Go to next level.
+			if (Input.GetKeyDown (KeyCode.Q)) {
+				Invoke ("Restart", restartLevelDelay);
+				enabled = false;
+			}
+
 			//If it's not the player's turn, exit the function.
 			if(!GameManager.instance.playersTurn) return;
 			
@@ -262,6 +273,19 @@ namespace Completed
 				GameManager.instance.GameOver ();
 			}
 		}
+
+
+		void OnGUI(){
+			GUIStyle style = new GUIStyle();
+
+			style.fontSize = 20;
+			style.normal.textColor = Color.white;
+
+
+			GUI.Label (new Rect (10, Screen.height - 35, 100, 20), "Food: " + food, style);
+
+		}
+
 	}
 }
 

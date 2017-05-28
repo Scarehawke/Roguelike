@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LevelHelper.cs" />
     <Compile Include="Assets\Scripts\2D generation\BoardCreator.cs" />
     <Compile Include="Assets\Scripts\2D generation\Corridor.cs" />
     <Compile Include="Assets\Scripts\2D generation\IntRange.cs" />
